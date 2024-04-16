@@ -1,9 +1,9 @@
 import React from "react";
 
-const Buttons = () => {
-   return <div className="mb-3">
-      <button type="submit" className="btn btn-primary">Salvar</button>
-      <button type="reset" className="btn btn-warning">Cancel</button>
+const Buttons = ({submit, reset}) => {
+   return <div>
+      <button type="submit" className="btn btn-primary">{submit ? submit : 'Salvar'}</button>
+      <button type="reset" className="btn btn-warning">{reset ? reset : 'Salvar'}</button>
    </div>
 }
 
