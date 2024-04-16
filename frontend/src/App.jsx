@@ -1,38 +1,20 @@
-import { useState, useEffect } from 'react'
-import './App.css'
+import {createBrowserRouter, RouterProvider} from 'react-router-dom';
+import Root from './pages/Root'
+import Home from './pages/Home'
+import Tasks from './components/Tasks';
+import NewTask from './components/NewTask';
+import {saveTask, getTasks, getPriorities} from './utils/master'
 
-function App() {
-  const [message, setMessage] = useState(null)
+const routes = createBrowserRouter([
+  {path: '/', element: <Root/>, children: [
+    {index: true, element: <Home/>},
+    {path: 'tasks', loader: getTasks, element: <Tasks/>},
+    {path: 'newTask',loader: getPriorities, action: saveTask, element: <NewTask/>},
+  ]}
+])
 
-  const getMessage = async () => {
-    try {
-      const response = await fetch('https://192.168.1.160/programacao/testes/Projetos/superTodo/backend/public/api/', {method: 'get'})
-      const json = await response.json()
-      console.log(response);
-      setMessage(json)
-    } catch (error) {
-      throw new Error('Something went wrong!');
-    }
-  }
-
-  useEffect(() => {
-    setTimeout(() => {
-      getMessage()
-    }, 1500);
-  }, [])
-  
-
-  return (
-    <>
-      {
-        message && <p>{message.message}</p>
-      }
-
-      {
-        !message && <p>Loading...</p>
-      }
-    </>
-  )
+const App = () => {
+  return <RouterProvider router={routes} />
 }
 
 export default App

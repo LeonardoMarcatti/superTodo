@@ -12,4 +12,10 @@ class DataController extends Controller
 
         return \json_encode($data);
     }
+
+    public function newTask(Request $r)
+    {
+        $data = $r->data();
+        return \json_encode($data);
+    }
 }
