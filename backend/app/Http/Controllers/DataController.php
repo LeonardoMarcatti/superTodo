@@ -15,7 +15,7 @@ class DataController extends Controller
 
     public function newTask(Request $r)
     {
-        $data = $r->data();
+        $data = $r->all();
         return \json_encode($data);
     }
 }
