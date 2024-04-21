@@ -7,7 +7,7 @@ const Header = () => {
       <h1>ToDos</h1>
       <h3>Foto</h3>
       <nav>
-         <NavLink to='/'>Home</NavLink>
+         <NavLink to='/app'>Home</NavLink>
          <NavLink to='tasks'>Tasks</NavLink>
          <NavLink to='newTask'>New Task</NavLink>
       </nav> 

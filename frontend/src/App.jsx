@@ -5,16 +5,19 @@ import Tasks from './components/Tasks';
 import NewTask from './components/NewTask';
 import Login from './pages/Login';
 import Logup from './pages/Logup';
-import {saveTask, getTasks, getPriorities} from './utils/master'
+import {saveTask, getTasks, getPriorities, logup, login, checkLogin} from './utils/master'
+import Error from './pages/Error';
 
 const routes = createBrowserRouter([
-  {path: '/', element: <Root/>, children: [
-    {index: true, element: <Home/>},
+  {path: '/app/', element: <Root/>, children: [
+    {index: true, loader: checkLogin, element: <Home/>},
     {path: 'tasks', loader: getTasks, element: <Tasks/>},
     {path: 'newTask',loader: getPriorities, action: saveTask, element: <NewTask/>},
   ]},
-  {path: '/login', element: <Login />},
-  {path: '/logup', element: <Logup />}
+  {path: '/', errorElement: <Error />, children: [
+    {index: true, action: login, element: <Login />},
+    {path: '/logup', action: logup, element: <Logup />},
+  ]}
 ])
 
 const App = () => {

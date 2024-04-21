@@ -9,6 +9,7 @@ const Login = () => {
       <h2>Login</h2>
       <Form method="post" >
          <Input label="Email" type="email" txt="email" />
+         <Input label="" type="text" txt="device_name" value='mafagafoPC' hidden/>
          <Input  label="Senha" type="password" txt="password" />
          <div id={styles["form_bottom"]}>
             <Buttons submit="Login" reset="Cancelar"/>
