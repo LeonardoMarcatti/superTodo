@@ -6,7 +6,7 @@ const Select = ({label, value, txt, data}) => {
       <select name={txt} id={txt} className="form-control" defaultValue={value ? value : ''}>
          {
             data && data.map(el => {
-               return <option key={el.id} value={el.priority}>{el.priority}</option>
+               return <option key={el.id} value={el.id}>{el.priority}</option>
             })
          }
       </select>

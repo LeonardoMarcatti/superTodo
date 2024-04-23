@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::table('tasks', function (Blueprint $table) {
             $table->foreign('priority_id')->references('id')->on('priorities');
-            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -24,7 +23,6 @@ return new class extends Migration
     {
         Schema::table('tasks', function (Blueprint $table) {
             $table->dropForeign('priority_id');
-            $table->dropForeign('user_id');
         });
     }
 };

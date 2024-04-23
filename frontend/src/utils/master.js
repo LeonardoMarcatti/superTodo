@@ -4,16 +4,17 @@ const url = 'https://192.168.1.160/programacao/testes/Projetos/superTodo/backend
 let token = ''
 
 const getTasks = async () => {
-   const response = await fetch(url, {method: 'get'})
+   const response = await fetch(`${url}tasks`, {method: 'get'})
    const data = await response.json(response)
    return data
 }
 
 const saveTask = async ({request}) => {
    const data = await request.formData()
-   const response = await fetch(`${url}newTask`, {method: 'post', body: data})
-
-   return response
+   const result = await fetch(`${url}newTask`, {method: 'post', body: data })
+   const response = result.json()
+   console.log(response);
+   return redirect('/app/tasks')
 }
 
 const getPriorities = async () => {
@@ -24,23 +25,18 @@ const getPriorities = async () => {
 
 const logup = async({request}) => {
    const formData = await request.formData()
-   const response = await fetch(`${url}tokens/create`, {
+   const response = await fetch(`${url}logup`, {
       method: 'post',
       body: formData,
-      // Authorization: 'Bearer token_name',
    })
 
    const json = await response.json()
-   console.log(json);
    if (json.status == true) {
       alert(json.message)
       return redirect('/');
    }
 
-   if (json.status == false) {
-      throw new Error(JSON.stringify(json));
-   }
-
+   alert(json.message)
    return null;
 }
 
@@ -84,12 +80,27 @@ const login = async ({request}) => {
 
 const checkLogin = async () => {
    const user = await verifyUser()
-   if (!user) {
+   if (user.message) {
       return redirect('/')
    }
 
-   return null
-      
+   if (user) {
+      return null
+   }
+
 }
 
-export {getTasks, saveTask, getPriorities, logup, login, checkLogin}
+const logout = async () => {
+   await fetch(`${url}logout`, {
+      method: 'get',
+      headers: {
+         'Accept': 'application/json',
+         'Content-Type': 'application/json',
+         Authorization: `Bearer ${token}`,
+      },
+   })
+
+   return redirect('/')
+}
+
+export {getTasks, saveTask, getPriorities, logup, login, checkLogin, logout}

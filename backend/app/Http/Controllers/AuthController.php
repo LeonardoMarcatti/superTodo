@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -13,7 +12,16 @@ class AuthController extends Controller
 
     private function checkData(object $data)
     {
-        $isValid = $data->validate(['name' => 'required', 'username' => 'required', 'email' => 'required', 'password' => 'required|confirmed']);
+        $isValid = null;
+
+        if ($data && $data->username) {
+            $isValid = $data->validate(['name' => 'required', 'username' => 'required', 'email' => 'required', 'password' => 'required|confirmed']);
+        }
+
+        if ($data && !$data->username) {
+            $isValid = $data->validate(['password' => 'required', 'email' => 'required']);
+        }
+
         return $isValid? true : false;
     }
 
@@ -26,10 +34,10 @@ class AuthController extends Controller
 
     public function logup(Request $r)
     {
-
         if ($this->checkData($r)) {
             $data = $r->all();
-            if ($this->checkUser($data['email'])) {
+
+            if (!$this->checkUser($data['email'])) {
                 $this->model = new User($data);
                 $result = $this->model->save();
                 if ($result) {
@@ -46,21 +54,30 @@ class AuthController extends Controller
 
     public function login(Request $r)
     {
-        $data = $r->all();
-        $user = $this->checkUser($data['email']);
+        if ($this->checkData($r)) {
+            $data = $r->all();
+            $user = $this->checkUser($data['email']);
 
-        if (!$user || !Hash::check($data['password'], $user->password)) {
-            return ['status' => false];
+            if (!$user || !Hash::check($data['password'], $user->password)) {
+                return ['status' => false];
+            }
+
+            $token = $user->createToken($data['email'])->plainTextToken;
+
+            return ['status' => true, 'token' => $token];
         }
 
-        $token = $user->createToken($data['device_name'])->plainTextToken;
-
-        return ['status' => true, 'token' => $token];
+        return ['message' => 'Please check you data input', 'status' => false];
 
     }
 
-    public function verifyUser(Request $r)
+    public function verifyUser(Request $r) : object
     {
         return $r->user();
+    }
+
+    public function logout(Request $r)
+    {
+        return $r->user()->tokens()->delete();
     }
 }

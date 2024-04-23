@@ -1,0 +1,16 @@
+.taskItem {
+   background-color: rgb(228, 228, 228);
+   padding: 10px 20px;
+   box-shadow: 0 0 10px gray;
+   width: 90%;
+   display: flex;
+   flex-flow: row nowrap;
+   justify-content: space-between;
+   align-items: center;
+   border-radius: 15px;
+   margin-bottom: 20px;
+}
+
+.taskItem > span > button {
+   margin-left: 10px;
+}

@@ -3,19 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\TasksModel;
 class DataController extends Controller
 {
-    public function test()
-    {
-        $data = ["status" => true, "id" => "a1", "message" => "This is the message"];
 
-        return \json_encode($data);
-    }
+    private object $model;
 
     public function newTask(Request $r)
     {
         $data = $r->all();
-        return \json_encode($data);
+        $this->model = new TasksModel($data);
+        return $this->model->save();
+    }
+
+    public function getTasks() : object
+    {
+        $this->model = new TasksModel();
+        return $this->model::all();
     }
 }

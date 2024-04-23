@@ -6,7 +6,7 @@ import styles from '../App.module.css'
 const Root = () => {
    return <div className={styles.root}>
       <Header />
-      <div className={styles.container1}>
+      <div className={styles.container}>
          <aside className={styles.aside}>
             <h2>Tasks List</h2>
          </aside>

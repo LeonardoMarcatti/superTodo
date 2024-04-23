@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('desc');
+            $table->string('title');
             $table->date('deadLine');
             $table->unsignedBigInteger('priority_id');
-            $table->unsignedBigInteger('user_id');
         });
     }
 

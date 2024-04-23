@@ -11,6 +11,4 @@ class PrioritiesModel extends Model
     protected $table = 'priorities';
     protected $fillable = ['priority'];
 
-
-
 }
