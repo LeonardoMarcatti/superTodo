@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('desc');
             $table->string('title');
             $table->date('deadLine');
-            $table->unsignedBigInteger('priority_id');
         });
     }
 

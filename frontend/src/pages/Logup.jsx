@@ -16,7 +16,10 @@ const Logup = () => {
          <Input  label="Password" type="password" txt="password" />
          <Input  label="Repeat password" type="password" txt="password_confirmation" />
          <div id={styles["form_bottom"]}>
-            <Buttons submit="Register" reset="Cancel"/>
+            <div>
+               <button type="submit" className="btn btn-primary">Logup</button>
+               <button type="reset" className="btn btn-warning">Cancel</button>
+            </div>
             <NavLink to="/">Login</NavLink>
          </div>
       </Form>

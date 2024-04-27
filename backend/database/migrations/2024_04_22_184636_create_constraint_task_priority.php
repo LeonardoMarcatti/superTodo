@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('tasks', function (Blueprint $table) {
-            $table->foreign('priority_id')->references('id')->on('priorities');
+            $table->foreignId('priority_id')->constrained();
         });
     }
 

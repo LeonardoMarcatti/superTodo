@@ -1,0 +1,33 @@
+#modal #success {
+   position: absolute;
+   padding: 10px;
+   width: 300px;
+   top: calc(50% - 100px);
+   left: calc(50% - 150px); 
+   display: flex;
+   flex-flow: column nowrap;
+   align-items: center;
+   justify-content: space-around;
+   box-shadow: 0 0 10px gray;
+   border: none;
+   border-radius: 15px;
+   background-color: lightgreen;
+   color: darkgreen;
+ }
+
+ #modal #danger {
+   position: absolute;
+   padding: 10px;
+   width: 300px;
+   top: calc(50% - 100px);
+   left: calc(50% - 150px); 
+   display: flex;
+   flex-flow: column nowrap;
+   align-items: center;
+   justify-content: space-around;
+   box-shadow: 0 0 10px gray;
+   border: none;
+   border-radius: 15px;
+   background-color: lightcoral;
+   color: darkred;
+ }

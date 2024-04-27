@@ -17,4 +17,13 @@
 
 .menu nav a {
    margin-right: 10px;
+   text-decoration: none;
+   background-color: lightblue;
+   padding: 10px 15px;
+   border-radius: 5px;
+   color: black;
+}
+
+.menu nav a:hover {
+   box-shadow: 0 0 10px gray;
 }

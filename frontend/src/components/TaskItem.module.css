@@ -11,6 +11,6 @@
    margin-bottom: 20px;
 }
 
-.taskItem > span > button {
+.taskItem button {
    margin-left: 10px;
 }

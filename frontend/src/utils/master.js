@@ -1,7 +1,6 @@
-import { redirect } from "react-router-dom"
+import { redirect} from "react-router-dom"
 
 const url = 'https://192.168.1.160/programacao/testes/Projetos/superTodo/backend/public/api/'
-let token = ''
 
 const getTasks = async () => {
    const response = await fetch(`${url}tasks`, {method: 'get'})
@@ -9,12 +8,16 @@ const getTasks = async () => {
    return data
 }
 
+const getTask = async (id) => {
+   const response = await fetch(`${url}getTask/${id}`, {method: 'get'})
+   const data = await response.json(response)
+   return data
+}
+ 
 const saveTask = async ({request}) => {
    const data = await request.formData()
-   const result = await fetch(`${url}newTask`, {method: 'post', body: data })
-   const response = result.json()
-   console.log(response);
-   return redirect('/app/tasks')
+   await fetch(`${url}newTask`, {method: 'post', body: data })
+   return redirect('/app');
 }
 
 const getPriorities = async () => {
@@ -23,7 +26,7 @@ const getPriorities = async () => {
    return data
 }
 
-const logup = async({request}) => {
+const logup = async ({request}) => {
    const formData = await request.formData()
    const response = await fetch(`${url}logup`, {
       method: 'post',
@@ -40,6 +43,7 @@ const logup = async({request}) => {
    return null;
 }
 
+const getToken = () => sessionStorage.getItem('token')
 
 const verifyUser = async () => {
    const login = await fetch(`${url}verifyUser`, {
@@ -47,13 +51,18 @@ const verifyUser = async () => {
       headers: {
          'Accept': 'application/json',
          'Content-Type': 'application/json',
-         Authorization: `Bearer ${token}`,
+         Authorization: `Bearer ${getToken()}`,
       },
    })
-   const json = await login.json();
-   return json
-}
 
+   const json = await login.json();
+
+   if (json.message == 'Unauthenticated.') {
+      return false
+   }
+
+   return true
+}
 
 const getUserData = async (data) => {
    const response = await fetch(`${url}login`, {
@@ -68,7 +77,7 @@ const login = async ({request}) => {
    const data = await request.formData()
    const json = await getUserData(data)
    if (json.status) {
-      token = json.token
+       sessionStorage.setItem('token', json.token)
       if (json.status) {
          return redirect('/app/')
       }
@@ -78,17 +87,7 @@ const login = async ({request}) => {
    return redirect('/')
 }
 
-const checkLogin = async () => {
-   const user = await verifyUser()
-   if (user.message) {
-      return redirect('/')
-   }
-
-   if (user) {
-      return null
-   }
-
-}
+const checkLogin = async () => await verifyUser()
 
 const logout = async () => {
    await fetch(`${url}logout`, {
@@ -96,11 +95,31 @@ const logout = async () => {
       headers: {
          'Accept': 'application/json',
          'Content-Type': 'application/json',
-         Authorization: `Bearer ${token}`,
+         Authorization: `Bearer ${getToken()}`,
       },
    })
-
+   sessionStorage.clear()
    return redirect('/')
 }
 
-export {getTasks, saveTask, getPriorities, logup, login, checkLogin, logout}
+ 
+const updateTask = async ({request}) => {
+   const data = await request.formData()
+   await fetch(`${url}updateTask`, {method: 'post', body: data })
+
+   return null
+}
+
+const deleteTask = async (id) => {
+   const response = await fetch(`${url}deleteTask/${id}`, {method: 'delete', body: id})
+   const result = await response.json()
+   
+   if (result) {
+      return true
+   }
+
+   return false
+}
+
+
+export {getTasks, saveTask, getPriorities, logup, login, checkLogin, logout, getTask, updateTask, deleteTask}

@@ -1,7 +1,6 @@
 import React from "react";
 import {Form, NavLink} from 'react-router-dom'
 import Input from '../components/UI/Input'
-import Buttons from '../components/UI/Buttons'
 import styles from '../App.module.css'
 
 const Login = () => {
@@ -11,7 +10,10 @@ const Login = () => {
          <Input label="Email" type="email" txt="email" />
          <Input  label="Senha" type="password" txt="password" />
          <div id={styles["form_bottom"]}>
-            <Buttons submit="Login" reset="Cancelar"/>
+            <div>
+               <button type="submit" className="btn btn-primary">Login</button>
+               <button type="reset" className="btn btn-warning">Cancel</button>
+            </div>
             <NavLink to="/logup">Logup</NavLink>
          </div>
       </Form>
