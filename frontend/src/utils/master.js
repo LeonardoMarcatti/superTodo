@@ -34,6 +34,7 @@ const logup = async ({request}) => {
    })
 
    const json = await response.json()
+   console.log(json);
    if (json.status == true) {
       alert(json.message)
       return redirect('/');
@@ -101,7 +102,6 @@ const logout = async () => {
    sessionStorage.clear()
    return redirect('/')
 }
-
  
 const updateTask = async ({request}) => {
    const data = await request.formData()
@@ -110,15 +110,18 @@ const updateTask = async ({request}) => {
    return null
 }
 
-const deleteTask = async (id) => {
+const deleteTask = async ({request}) => {
+   const data = await request.formData()
+   const {id} = Object.fromEntries(data)
+
    const response = await fetch(`${url}deleteTask/${id}`, {method: 'delete', body: id})
    const result = await response.json()
-   
-   if (result) {
+   if (result) { 
       return true
    }
 
    return false
+
 }
 
 

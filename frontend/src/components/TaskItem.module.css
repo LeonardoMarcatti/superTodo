@@ -14,3 +14,9 @@
 .taskItem button {
    margin-left: 10px;
 }
+
+.bottom {
+   display: flex;
+   flex-flow: row nowrap;
+   
+}

@@ -1,32 +1,47 @@
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
-import Root, {rootLoader} from './pages/Root'
-import Home from './pages/Home'
-import Tasks from './pages/Tasks';
-import NewTask from './pages/NewTask';
 import Login from './pages/Login';
 import Logup from './pages/Logup';
-import {saveTask, getTasks, getPriorities, logup, login, logout, updateTask} from './utils/master'
+import {saveTask, getPriorities, logup, login, logout, updateTask, deleteTask} from './utils/master'
 import Error from './pages/Error';
 import Logout from './pages/Logout';
-import Edit, {editLoader} from './pages/Edit';
+import {editLoader} from './pages/Edit';
 import ModalContext from '../context/modalContext';
 import './modal.css'
-import { useState } from 'react';
+import {lazy, Suspense, useState } from 'react';
+import { rootLoader } from './pages/Root';
+import { viewLoader } from './pages/ViewTask';
+
+const Root = lazy(() => import('./pages/Root'))
+const Home = lazy(() => import('./pages/Home'))
+const Tasks = lazy(() => import('./pages/Tasks'))
+const NewTask = lazy(() => import('./pages/NewTask'))
+const Edit = lazy(() => import('./pages/Edit'))
+const ViewTask = lazy(() => import('./pages/ViewTask'))
 
 const routes = createBrowserRouter([
   {path: '/app/', loader: rootLoader, element: <Root/>, children: [
-    {index: true, element: <Home/>},
-    {path: 'tasks', loader: getTasks, element: <Tasks/>},
-    {path: 'newTask', loader: getPriorities, action: saveTask, element: <NewTask/>},
-    {path: 'task/:id', children: [
+    { index: true,
+      element: <Suspense fallback={<p>Loading tasks...</p>}><Home/></Suspense>
+    },
+    { path: 'tasks',
+      loader: () => import('./pages/Tasks').then(module => module.getTasks()),
+      action: deleteTask,
+      element:  <Suspense fallback={<p>Loading tasks...</p>}><Tasks/></Suspense>
+    },
+    { path: 'newTask',
+      loader: getPriorities,
+      action: saveTask,
+      element: <Suspense fallback={<p>Loading page...</p>}><NewTask/></Suspense>
+    },
+    {path: 'task', children: [
       {
-        index: true
+        path: 'view/:id', loader: viewLoader, element: <Suspense fallback={<p>Loading</p>}><ViewTask /></Suspense>
       },
       {
-        path: 'edit', id: 'edit', loader: editLoader, action: updateTask , element: <Edit />
+        path: 'edit/:id', id: 'edit', loader: editLoader, action: updateTask, element: <Suspense fallback={<p>Loading</p>}><Edit /></Suspense>
       },
       {
-        path: 'delete', id: 'delete', loader: editLoader, action: updateTask , element: <Edit />
+        path: 'delete', id: 'delete', loader: editLoader, element: <Edit />
       }
     ]},
     
@@ -35,7 +50,6 @@ const routes = createBrowserRouter([
     {index: true, action: login, element: <Login />},
     {path: 'logup', action: logup, element: <Logup />},
     {path: 'logout', loader: logout, element: <Logout /> },
-    
   ]}
 ])
 

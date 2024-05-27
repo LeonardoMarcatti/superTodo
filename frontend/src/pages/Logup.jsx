@@ -1,7 +1,6 @@
 import React from "react";
 import {Form, NavLink} from 'react-router-dom'
 import Input from '../components/UI/Input'
-import Buttons from '../components/UI/Buttons'
 import styles from '../App.module.css'
 
 

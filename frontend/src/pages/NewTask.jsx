@@ -4,8 +4,11 @@ import Input from '../components/UI/Input'
 import Select from '../components/UI/Select'
 import TextArea from '../components/UI/TextArea'
 import styles from './NewTask.module.css'
+import { getPriorities } from '../utils/master';
+
 
 const NewTask = () => {
+   console.log('new task');
    const data = useLoaderData()
    return <Form method="post" className={styles.form}>
       <div className="row">
@@ -23,4 +26,5 @@ const NewTask = () => {
    </Form>
 }
 
+export {getPriorities}
 export default NewTask

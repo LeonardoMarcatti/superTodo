@@ -15,7 +15,7 @@ class AuthController extends Controller
         $isValid = null;
 
         if ($data && $data->username) {
-            $isValid = $data->validate(['name' => 'required', 'username' => 'required', 'email' => 'required', 'password' => 'required|confirmed']);
+            $isValid = $data->validate(['name' => 'required', 'username' => 'required', 'email' => 'required', 'password' => 'required|confirmed'], ['name.required' => 'Insert name', 'username.required' => 'Insert username', 'email.required' => 'Insert email', 'password.required' => 'Password is required', 'password.confirmed' => 'Password is not equal']);
         }
 
         if ($data && !$data->username) {
@@ -40,9 +40,11 @@ class AuthController extends Controller
             if (!$this->checkUser($data['email'])) {
                 $this->model = new User($data);
                 $result = $this->model->save();
-                if ($result) {
+                if ($result == 1) {
                     return ['message' => 'User created!', 'status' => true];
                 }
+
+                return ['message' => 'Check your passwords', 'status' => false];
             }
 
             return ['message' => 'Email in use', 'status' => false];

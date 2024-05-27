@@ -1,11 +1,10 @@
 import React from "react";
-import {Outlet, useLoaderData, redirect} from 'react-router-dom'
+import {Outlet, useLoaderData, redirect, Link} from 'react-router-dom'
 import Header from '../components/Header'
 import styles from '../App.module.css'
 import {getTasks, checkLogin} from '../utils/master'
 
 const rootLoader = async () => {
-   console.log('ok');
    const tasks = await getTasks()
    const login = await checkLogin()
    
@@ -25,7 +24,7 @@ const Root = () => {
             <h2>Tasks List</h2>
             <ul>
                {
-                  tasks.map(el => <li key={el.id}>{el.title}</li>)
+                  tasks.map(el => <li key={el.id}><Link to={`task/view/${el.id}`}>{el.title}</Link></li>)
                }
             </ul>
          </aside>

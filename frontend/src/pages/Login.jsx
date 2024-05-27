@@ -4,6 +4,7 @@ import Input from '../components/UI/Input'
 import styles from '../App.module.css'
 
 const Login = () => {
+   console.log('login');
    return <div id={styles["login_container"]}>
       <h2>Login</h2>
       <Form method="post" >

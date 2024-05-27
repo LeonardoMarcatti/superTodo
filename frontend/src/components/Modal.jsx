@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import {motion} from 'framer-motion'
 
-const Modal = ({children, id, taskID}) => {
+const Modal = ({children, id}) => {
    const dialog = useRef();
    useEffect(() => {
      const modal = dialog.current;
@@ -13,9 +14,16 @@ const Modal = ({children, id, taskID}) => {
    }, []);
  
    return createPortal(
-     <dialog ref={dialog} id={id}>
+     <motion.dialog
+      ref={dialog}
+      id={id}
+      className='myModal' 
+      initial={{opacity: 0, y: 30}}
+      exit={{opacity: 0, y: 30}}
+      animate={{opacity: 1, y: 0}}
+      transition={{duration: 0.5}}>
       {children}
-     </dialog>,
+     </motion.dialog>,
      document.getElementById('modal')
    );
  }
