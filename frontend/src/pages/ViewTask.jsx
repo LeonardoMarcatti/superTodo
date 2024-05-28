@@ -14,6 +14,7 @@ const ViewTask = () => {
    return <>
       <h1>{task.title}</h1>
       <h2>{task.desc}</h2>
+      <h3>Deadline: </h3>
       <p>{task.deadLine}</p>
    </>
 }

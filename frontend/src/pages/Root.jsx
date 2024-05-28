@@ -24,7 +24,7 @@ const Root = () => {
             <h2>Tasks List</h2>
             <ul>
                {
-                  tasks.map(el => <li key={el.id}><Link to={`task/view/${el.id}`}>{el.title}</Link></li>)
+                  tasks.map(el => <Link to={`task/view/${el.id}`}><li key={el.id}>{el.title}</li></Link>)
                }
             </ul>
          </aside>
